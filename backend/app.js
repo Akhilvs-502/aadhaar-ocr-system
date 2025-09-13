@@ -1,23 +1,23 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import ocrRoute from './routes/ocrRoutes.js'
 
- import express from 'express';
+dotenv.config();
 
+const app = express();
 
-const app=express()
+app.use(express.json());
+app.use(cors());
+app.use(
+  cors({
+    origin:process.env.FRONDEND_URL,
+    credential: true,
+  })
+);
 
+app.use("/api/ocr",ocrRoute);
 
-
-
-    app.use(express.json());
-
-
-    app.get("/",(req,res)=>{
-        
-    })
-
-
-
-app.listen(8000,()=>{
-
-    console.log(" server started at 8000" );
-    
-})
+app.listen(5000, () => {
+  console.log(" server started at 5000");
+});
