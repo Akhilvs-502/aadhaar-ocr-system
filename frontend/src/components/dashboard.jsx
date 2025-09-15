@@ -198,34 +198,83 @@ const UploadForm = () => {
           </div>
         )}
 
-        {ocrResult && (
-          <div className="results-container">
-            <h2>Extracted Aadhaar Information</h2>
-            
-            <div className="results-grid">
-              <div className="result-section">
-                <h3>Front Side Details</h3>
-                <div className="result-content">
-                  <pre>{ocrResult.frontText}</pre>
-                </div>
-              </div>
-              
-              <div className="result-section">
-                <h3>Back Side Details</h3>
-                <div className="result-content">
-                  <pre>{ocrResult.backText}</pre>
-                </div>
-              </div>
-            </div>
-            
-            <div className="success-message">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-              </svg>
-              <span>Information extracted successfully!</span>
-            </div>
+   
+
+
+{ocrResult && (
+
+    <div className="aadhaar-details-card">
+      <div className="card-header">
+        <div className="header-icon">
+          <i className="fas fa-id-card"></i>
+        </div>
+        <h2>Aadhaar Details</h2>
+      </div>
+      
+      <div className="card-body">
+        <div className="detail-row">
+          <div className="detail-icon">
+            <i className="fas fa-fingerprint"></i>
           </div>
-        )}
+          <div className="detail-content">
+            <div className="detail-label">Aadhaar Number</div>
+            <div className="detail-value aadhaar-number">{ocrResult.aadhaarNumber}</div>
+          </div>
+        </div>
+        
+        <div className="detail-row">
+          <div className="detail-icon">
+            <i className="fas fa-user"></i>
+          </div>
+          <div className="detail-content">
+            <div className="detail-label">Full Name</div>
+            <div className="detail-value">{ocrResult.name}</div>
+          </div>
+        </div>
+        
+        <div className="detail-row">
+          <div className="detail-icon">
+            <i className="fas fa-calendar-alt"></i>
+          </div>
+          <div className="detail-content">
+            <div className="detail-label">Date of Birth</div>
+            <div className="detail-value">{ocrResult.dob}</div>
+          </div>
+        </div>
+        
+        <div className="detail-row">
+          <div className="detail-icon">
+            <i className="fas fa-venus-mars"></i>
+          </div>
+          <div className="detail-content">
+            <div className="detail-label">Gender</div>
+            <div className="detail-value">{ocrResult.gender}</div>
+          </div>
+        </div>
+        
+        <div className="detail-row">
+          <div className="detail-icon">
+            <i className="fas fa-home"></i>
+          </div>
+          <div className="detail-content">
+            <div className="detail-label">Address</div>
+            <div className="detail-value">{ocrResult.address}</div>
+          </div>
+        </div>
+        
+        <div className="success-message">
+          <div className="success-icon">
+            <i className="fas fa-check"></i>
+          </div>
+          <span>Information extracted successfully!</span>
+        </div>
+        
+      </div>
+    </div>
+
+)}
+
+
       </div>
     </div>
   );
