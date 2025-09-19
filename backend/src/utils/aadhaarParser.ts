@@ -37,27 +37,39 @@ export class AadhaarParser {
     }
 
     private static cleanAddress(raw: string): string {
+        // Normalize common OCR errors and symbols
         let cleaned = raw
             .toUpperCase()
             .replace(/0/g, "O")
             .replace(/1/g, "I")
             .replace(/RN/g, "M")
-            .replace(/[|«§»“”‘’]/g, " ")
-            .replace(/\s+/g, " ")
-            .replace(/\s,/g, ",")
-            .replace(/,\s*/g, ", ")
+            .replace(/[|«§»“”‘’]/g, " ") // remove weird symbols
+            .replace(/\s+/g, " ")         // collapse multiple spaces
+            .replace(/\s,/g, ",")         // remove space before comma
+            .replace(/,\s*/g, ", ")       // standardize comma spacing
             .trim();
 
+        // Remove any remaining non-address characters
         cleaned = cleaned.replace(/[^A-Z0-9\s,\/\-]/g, " ");
 
-        const junkWords = ["SRR", "NT", "LT", "AE", "RY", "SVE", "AHI", "RE", "RI", "PER", "A", "TT", "RR", "=", "--"];
+        // List of known junk words
+        const junkWords = ["SRR", "NT", "LT", "AE", "RY", "SVE", "AHI", "RE", "RI", "PER", "TT", "RR", "=", "--"];
 
-        const tokens = cleaned.split(/[\s,]+/).filter(
-            t => (t.length > 1 || ["A", "I"].includes(t)) && !junkWords.includes(t)
-        );
+        // List of valid short forms to keep
+        const validShortForms = ["ST", "RD", "LN", "DR", "PO"];
+
+        // Split into tokens and filter
+        const tokens = cleaned.split(/[\s,]+/).filter(token => {
+            if (junkWords.includes(token)) return false;                // remove junk
+            if (validShortForms.includes(token)) return true;          // keep valid short forms
+            if (/^\d+[A-Z]*$/.test(token)) return true;               // keep numbers like 12, 45A
+            if (token.length >= 3) return true;                        // keep words of length >= 3
+            return false;                                               // remove everything else
+        });
 
         return tokens.join(", ");
     }
+
 
     private static trimAfterPincode(line: string): string {
         return line.replace(/(\b\d{6}\b).*/, "$1");
