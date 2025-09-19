@@ -57,7 +57,13 @@ const UploadForm = () => {
       setOcrResult(res.data.data);
     } catch (err) {
       console.error(err);
-      setError('Error processing OCR. Please try again.');
+      if(err.response && err.response.data && err.response.data.message){
+        if(err.response.data.message==='validation failed'){
+          setError("Please upload valid Aadhaar card images. take clear pictures in good lighting.");
+        }
+      } else {
+        setError('Error processing OCR. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
