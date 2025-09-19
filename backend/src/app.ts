@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import ocrRoute from './routes/ocrRoutes.js'
+import ocrRoute from './routes/ocrRoutes'
+
 
 dotenv.config();
 
@@ -11,8 +12,8 @@ app.use(express.json());
 app.use(cors());
 app.use(
   cors({
-    origin:process.env.FRONDEND_URL,
-    credential: true,
+    origin:process.env.FRONTEND_URL,
+    credentials: true,
   })
 );
 
